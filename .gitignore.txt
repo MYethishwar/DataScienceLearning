@@ -1,0 +1,104 @@
+
+# --- Python cache files ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Jupyter Notebook checkpoints ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# --- Virtual environments ---
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# --- IDE / Editor specific ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Logs & debugging files ---
+*.log
+*.tmp
+*.bak
+*.out
+
+# --- Build / Distribution directories ---
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# --- Datasets (optional, can be large) ---
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.json
+*.xml
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.sav
+
+# --- Model files (large binary formats) ---
+*.h5
+*.hdf5
+*.pth
+*.pt
+*.joblib
+*.pkl
+*.model
+*.ckpt
+*.pb
+*.onnx
+
+# --- Output folders ---
+outputs/
+results/
+reports/
+plots/
+images/
+figures/
+logs/
+
+# --- Temporary / cache folders ---
+.cache/
+.ipynb_checkpoints/
+__pycache__/
+temp/
+tmp/
+data/tmp/
+data/cache/
+
+# --- Configuration or secret files ---
+*.env
+.env.*
+config.json
+secrets.json
+credentials.json
+token.json
+apikey.txt
+
+# --- Jupyter Notebook autosaves ---
+*.nbconvert.ipynb
+
+# --- OS specific ---
+.DS_Store
+desktop.ini
+Thumbs.db
+
+# --- Other large files or folders ---
+data/
+datasets/
+models/
+checkpoints/
+artifacts/
