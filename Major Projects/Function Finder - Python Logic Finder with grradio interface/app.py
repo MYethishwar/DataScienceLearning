@@ -48,7 +48,7 @@ initial_description = update_description(initial)
 
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
 
-    gr.HTML('<h1 style="text-align:center;">Function Finder – Python Logic Hub</h1>')
+    gr.HTML('<h1 style="text-align:center;">🧠 \Function Finder – Python Logic Hub</h1>')
 
     with gr.Row():
 
