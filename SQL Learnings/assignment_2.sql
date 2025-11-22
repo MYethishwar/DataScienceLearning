@@ -1,0 +1,194 @@
+use sql_invoicing;
+show tables;
+
+
+
+
+--  				SQL PRACTICE QUESTIONS
+
+-- 	             LEVEL 1 – BASIC SELECT (10 Qs)
+
+-- Show all clients from the sql_invoicing database.
+select distinct name from clients;
+
+-- List all products with price more than 3 from sql_store.products.
+use sql_store;
+select name, unit_price from products where unit_price > 3 order by unit_price;
+
+-- Select all customers who live in Texas (TX).
+select first_name, last_name, state from customers  where state = 'TX';
+
+
+-- Show all employees with salary greater than 90,000.
+use sql_hr;
+select employee_id,first_name, salary from employees where salary > 90000;
+
+
+-- Display all invoices with payment_total = 0.
+use sql_invoicing;
+select invoice_id, payment_total from invoices where payment_total = 0;
+
+
+-- List all order statuses.
+use sql_store;
+select * from order_statuses;
+
+
+-- Show the top 5 products with highest stock.
+use sql_store;
+select * from products order by quantity_in_stock desc limit 5;
+
+
+-- Get all payments made using ‘Credit Card’.
+use sql_invoicing;
+select * from payment_methods where name = 'Credit Card';
+select payments.payment_id, payment_methods.name from payments join payment_methods on 
+payments.payment_method = payment_methods.payment_method_id;
+
+
+-- Show all employees working in New York City.
+use sql_hr;
+select employees.first_name, offices.city from employees join offices on 
+employees.office_id = offices.office_id
+where offices.city = 'New York City';
+
+
+-- Retrieve products sorted by price (highest first).
+use sql_store;
+select name,unit_price from products order by unit_price DESC;
+
+
+
+--                LEVEL 2 – JOINS (10 Qs)
+
+-- Get all invoice details along with client names.
+use sql_invoicing;
+select  clients.name, invoices.* from clients inner join invoices on clients.client_id = invoices.client_id;
+
+
+-- List orders with customer full name and order date.
+use sql_store;
+select concat(customers.first_name, " ",customers.last_name) as customer_full_name, orders.order_date from customers join orders on 
+customers.customer_id = orders.customer_id order by orders.order_date;
+
+
+
+-- Show shipments with shipper name and shipped date.
+select shippers.name, orders.shipped_date from shippers join orders on 
+shippers.shipper_id = orders.shipper_id order by orders.shipped_date;
+
+
+-- Show employees and their office locations.
+use sql_hr;
+select concat(employees.first_name," ", employees.last_name) as employee_name, concat(offices.address, ", ", offices.city, ", ", offices.state) as working_location
+from employees join offices on 
+employees.office_id = offices.office_id;
+
+
+-- Display payments with client name and payment method.
+select clients.name as client_name, payments.payment_id, payments.amount, payment_methods.name from payments
+join clients on clients.client_id = payments.client_id 
+join payment_methods on payment_methods.payment_method_id = payments.payment_method;
+
+
+
+
+-- For each order, show total number of items ordered.
+use sql_store;
+select orders.order_id, count(order_items.product_id) as items_ordered from orders join order_items
+on orders.order_id = order_items.order_id group by orders.order_id; 
+
+
+-- Show full details of order items including product name.
+select products.name  as product_name ,order_items.*  from order_items join products on products.product_id = order_items.product_id;
+
+
+
+-- List clients and their total invoices amount.
+use sql_invoicing;
+select clients.name, sum(invoices.invoice_total) as total_invoices_amount from  invoices join clients on 
+clients.client_id = invoices.client_id group by clients.name;
+
+
+
+
+-- Find orders with their status names (Delivered/Shipped/Processed).
+use sql_store;
+select orders.order_id, order_statuses.name from orders right join order_statuses on 
+orders.status = order_statuses.order_status_id order by orders.order_id;
+
+
+
+-- Get all payments with invoice numbers.
+use sql_invoicing;
+select payments.payment_id , invoices.number from invoices join payments on 
+invoices.invoice_id = payments.invoice_id;
+
+
+
+
+--               LEVEL 3 – GROUP BY & AGGREGATE (5 Qs)
+
+-- Find total revenue from all invoices.
+use sql_invoicing;
+select round(sum(payment_total)) as total_revenue from invoices ;
+
+
+
+-- Show total amount paid by each client.
+select clients.name, sum(invoices.payment_total) as total_amount from clients join invoices on 
+clients.client_id = invoices.client_id group by clients.name;
+
+
+-- Number of orders placed by each customer.
+use sql_store;
+select customers.first_name as customer, count(orders.order_id)  as no_of_orders from 
+customers join orders on customers.customer_id = orders.customer_id 
+group by customers.first_name;
+
+
+
+-- Find average salary of employees.
+use sql_hr;
+select round(avg(salary)) as average_salary from employees;
+
+
+
+-- Show total quantity ordered for each product.
+use sql_store;
+select products.product_id, sum(order_items.quantity)  as total_quantity from products join order_items on
+products.product_id = order_items.product_id  group by products.product_id;
+
+
+
+--                  LEVEL 4 – SUBQUERIES (5 Qs)
+
+-- Show clients who paid more than 50 in total.
+use sql_invoicing;
+select clients.name, sum(invoices.payment_total) as paid from clients join invoices on
+clients.client_id = invoices.client_id group by clients.name
+having paid > 50;
+
+
+
+-- List products that were never ordered.
+use sql_store;
+select products.product_id, products.name, count(order_items.order_id) as ordered from products join order_items
+on products.product_id = order_items.product_id  group by product_id 
+having ordered = 0;
+
+
+-- Get customers who placed more than 2 orders.
+-- Show employees whose salary is above the company average.
+-- Get invoices that are fully paid.
+
+
+--                 LEVEL 5 – ADVANCED (BONUS: 8 Qs)
+-- Create a view showing client name + total payments.
+-- Rank customers by points using window function.
+-- Find top 3 most expensive products.
+-- Get revenue per year from invoices.
+-- Show orders shipped within 1 day (fast delivery).
+-- Find employees who are managers (who have subordinates).
+-- Show clients with pending payments.
+-- Find most frequently ordered product
