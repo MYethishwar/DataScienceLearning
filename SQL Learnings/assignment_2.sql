@@ -174,21 +174,100 @@ having paid > 50;
 -- List products that were never ordered.
 use sql_store;
 select products.product_id, products.name, count(order_items.order_id) as ordered from products join order_items
-on products.product_id = order_items.product_id  group by product_id 
+on products.zproduct_id = order_items.product_id  group by product_id 
 having ordered = 0;
 
 
 -- Get customers who placed more than 2 orders.
+-- There exist no customers who placed order more than 2
+use sql_store;
+select concat(customers.first_name, " ", customers.last_name) as customer_name , count(orders.order_id) as no_of_orders 
+from customers join orders on
+customers.customer_id = orders.customer_id 
+group by customer_name
+having no_of_orders > 1; 
+
+
+
 -- Show employees whose salary is above the company average.
+use sql_hr;
+select  employees.first_name, employees.salary from employees 
+where salary  > (select avg(salary) from employees) order by salary ;
+
+
+
+
 -- Get invoices that are fully paid.
+SELECT *
+FROM invoices
+WHERE payment_total < invoice_total;
 
 
 --                 LEVEL 5 – ADVANCED (BONUS: 8 Qs)
 -- Create a view showing client name + total payments.
+use sql_invoicing;
+create view   client_total_payments as
+select clients.name, sum(payments.amount)  as total_amount from clients join payments on
+clients.client_id = payments.client_id  group by clients.name;
+
+select * from client_total_payments;
+
+
+
+
 -- Rank customers by points using window function.
+use sql_store;
+select customers.first_name, customers.points, rank() over(order by points) as ranking from customers; 
+
+
+
 -- Find top 3 most expensive products.
+select * from products order by unit_price  desc limit 3;
+
+SELECT *
+FROM (
+    SELECT 
+        product_id,
+        products.name,
+        unit_price,
+        RANK() OVER (ORDER BY unit_price DESC) AS price_rank
+    FROM products
+) AS ranked
+WHERE price_rank <= 3;
+
+    
+    
 -- Get revenue per year from invoices.
+use sql_invoicing;
+select month(invoices.invoice_date) as month, count(*) as no_of_payments,  sum(invoice_total) as revenue from invoices
+group by month(invoices.invoice_date) order by month;
+
+
 -- Show orders shipped within 1 day (fast delivery).
+use sql_store;
+select orders.order_id, order_statuses.name from orders join order_statuses on 
+orders.status = order_statuses.order_status_id 
+where order_statuses.name = 'Shipped' ;
+
+SELECT orders.order_id,orders.order_date, orders.shipped_date, order_statuses.name from orders join order_statuses on orders.status = order_statuses.order_status_id
+WHERE DATEDIFF(shipped_date, order_date) = 1 ;
+
+
+
 -- Find employees who are managers (who have subordinates).
+select employee_id, first_name, last_name from employees 
+where employee_id in 
+	( select  reports_to from employees where reports_to is not null); 
+
+
 -- Show clients with pending payments.
+SELECT *
+FROM invoices
+WHERE payment_total < invoice_total;
+
+
+
 -- Find most frequently ordered product
+use sql_store;
+select products.name as product_name,count(order_items.order_id)  as no_of_orders from products join order_items on
+products.product_id = order_items.product_id group by products.product_id order by no_of_orders desc limit 3;
