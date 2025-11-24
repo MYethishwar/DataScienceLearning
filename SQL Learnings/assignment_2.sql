@@ -95,8 +95,9 @@ join payment_methods on payment_methods.payment_method_id = payments.payment_met
 
 -- For each order, show total number of items ordered.
 use sql_store;
-select orders.order_id, count(order_items.product_id) as items_ordered from orders join order_items
-on orders.order_id = order_items.order_id group by orders.order_id; 
+select oi.order_id, sum(oi.quantity) as total_items
+from order_items oi
+group by oi.order_id; 
 
 
 -- Show full details of order items including product name.
@@ -121,7 +122,7 @@ orders.status = order_statuses.order_status_id order by orders.order_id;
 
 -- Get all payments with invoice numbers.
 use sql_invoicing;
-select payments.payment_id , invoices.number from invoices join payments on 
+select payments.* , invoices.number from invoices join payments on 
 invoices.invoice_id = payments.invoice_id;
 
 
@@ -131,13 +132,13 @@ invoices.invoice_id = payments.invoice_id;
 
 -- Find total revenue from all invoices.
 use sql_invoicing;
-select round(sum(payment_total)) as total_revenue from invoices ;
+select sum(invoice_total) as total_revenue from invoices ;
 
 
 
 -- Show total amount paid by each client.
-select clients.name, sum(invoices.payment_total) as total_amount from clients join invoices on 
-clients.client_id = invoices.client_id group by clients.name;
+select clients.name, sum(payments.amount) as total_amount from clients join payments on 
+clients.client_id = payments.client_id group by clients.name;
 
 
 -- Number of orders placed by each customer.
@@ -150,7 +151,7 @@ group by customers.first_name;
 
 -- Find average salary of employees.
 use sql_hr;
-select round(avg(salary)) as average_salary from employees;
+select round(avg(salary), 2) as average_salary from employees;
 
 
 
@@ -165,8 +166,8 @@ products.product_id = order_items.product_id  group by products.product_id;
 
 -- Show clients who paid more than 50 in total.
 use sql_invoicing;
-select clients.name, sum(invoices.payment_total) as paid from clients join invoices on
-clients.client_id = invoices.client_id group by clients.name
+select clients.name, sum(payments.amount) as paid from clients join payments on
+clients.client_id = payments.client_id group by clients.client_id
 having paid > 50;
 
 
@@ -206,11 +207,65 @@ WHERE payment_total < invoice_total;
 --                 LEVEL 5 – ADVANCED (BONUS: 8 Qs)
 -- Create a view showing client name + total payments.
 use sql_invoicing;
-create view   client_total_payments as
+create view client_total_payments as
 select clients.name, sum(payments.amount)  as total_amount from clients join payments on
 clients.client_id = payments.client_id  group by clients.name;
 
 select * from client_total_payments;
+
+
+
+
+use sql_invoicing;
+
+
+
+
+-- Find the average invoice total and list 
+-- invoices higher than that average
+select * from invoices where invoice_total > 
+(select avg(invoice_total) from invoices) ;
+select avg(invoice_total) from invoices;
+
+
+
+
+-- show the employyes with highest salay
+use sql_hr;
+select * from employees where salary =
+(select max(salary)  from employees);
+
+
+
+-- list customers who haven't placed any orders;
+use sql_store;
+select * from customers 
+where customer_id not in (select customer_id from orders);
+
+
+
+
+-- Find products that have never been orderd
+use sql_store;
+select * from products where product_id not in 
+(select product_id from order_items);
+
+select * from order_items;
+
+
+
+
+
+ -- show clients who paid more than the average total payment amount
+use sql_invoicing;
+
+
+
+
+-- show  products whose stock is higher than the avg stock of all products
+use sql_store;
+select * from products where quantity_in_stock > 
+(select avg(quantity_in_stock) from products);
 
 
 
@@ -257,7 +312,7 @@ WHERE DATEDIFF(shipped_date, order_date) = 1 ;
 -- Find employees who are managers (who have subordinates).
 select employee_id, first_name, last_name from employees 
 where employee_id in 
-	( select  reports_to from employees where reports_to is not null); 
+	(select  reports_to from employees where reports_to is not null); 
 
 
 -- Show clients with pending payments.
@@ -271,3 +326,8 @@ WHERE payment_total < invoice_total;
 use sql_store;
 select products.name as product_name,count(order_items.order_id)  as no_of_orders from products join order_items on
 products.product_id = order_items.product_id group by products.product_id order by no_of_orders desc limit 3;
+
+
+call getAllEmployees;
+
+
