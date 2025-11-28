@@ -1,8 +1,3 @@
-use sql_invoicing;
-show tables;
-
-
-
 
 --  				SQL PRACTICE QUESTIONS
 
