@@ -30,7 +30,7 @@ The content reflects **progressive learning**, starting from basics and moving t
 
 ---
 
-### 2. Python Practice
+### 2. Python Learnings
 - Core Python concepts
 - Data structures and control flow
 - Practice programs for logic building
@@ -59,7 +59,8 @@ Libraries commonly used:
   - Naive Bayes  
   - KNN  
   - Decision Trees  
-  - Support Vector Machines  
+  - Support Vector Machines
+  - HyperParameter Tuning
 - Unsupervised learning basics
 - Model evaluation metrics
 - Data preprocessing and feature scaling
@@ -67,8 +68,17 @@ Libraries commonly used:
 
 ---
 
+### 4. Deep Learning
+- ANN
+- CNN
+- RNN
+---
+
 ### 5. Major Projects
 - End-to-end projects including problem statement & datasets used
+  - Python Finder (Python)
+  - Blogging Website (SQL)
+  - Placement Prediction
 
 
 ---
@@ -103,6 +113,7 @@ Libraries commonly used:
 - SQL  
 - Jupyter Notebook  
 - Machine Learning libraries (scikit-learn, pandas, numpy)
+- Deep Learning (Tensorflow with Keras)
 
 ---
 
