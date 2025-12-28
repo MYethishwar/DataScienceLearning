@@ -1,40 +1,63 @@
-
-# --- Python cache files ---
+# =====================================================
+# Python cache files (never commit compiled Python files)
+# =====================================================
 __pycache__/
 *.py[cod]
 *$py.class
 
-# --- Jupyter Notebook checkpoints ---
+
+# =====================================================
+# Jupyter Notebook checkpoint files
+# These are auto-generated backup files created by Jupyter.
+# They SHOULD NEVER be committed to Git.
+# =====================================================
 .ipynb_checkpoints/
 */.ipynb_checkpoints/
+*.nbconvert.ipynb
 
-# --- Virtual environments ---
+
+# =====================================================
+# Virtual environments (local environments only)
+# =====================================================
 venv/
 env/
 ENV/
 .venv/
 .env/
 
-# --- IDE / Editor specific ---
+
+# =====================================================
+# IDE / Editor specific files
+# =====================================================
 .vscode/
 .idea/
 *.swp
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# --- Logs & debugging files ---
+
+# =====================================================
+# Logs & debugging files
+# =====================================================
 *.log
 *.tmp
 *.bak
 *.out
 
-# --- Build / Distribution directories ---
+
+# =====================================================
+# Build / Distribution directories
+# =====================================================
 build/
 dist/
 *.egg-info/
 .eggs/
 
-# --- Datasets (optional, can be large) ---
+
+# =====================================================
+# Datasets (large files – keep locally, not in Git)
+# =====================================================
 *.csv
 *.tsv
 *.xls
@@ -49,19 +72,23 @@ dist/
 *.pickle
 *.sav
 
-# --- Model files (large binary formats) ---
-*.h5
-*.hdf5
+
+# =====================================================
+# Machine Learning / Model files (large binary files)
+# =====================================================
 *.pth
 *.pt
 *.joblib
-*.pkl
 *.model
 *.ckpt
 *.pb
 *.onnx
 
-# --- Output folders ---
+
+# =====================================================
+# Output & generated result folders
+# These are reproducible and should not be tracked
+# =====================================================
 outputs/
 results/
 reports/
@@ -70,16 +97,20 @@ images/
 figures/
 logs/
 
-# --- Temporary / cache folders ---
+
+# =====================================================
+# Temporary & cache directories
+# =====================================================
 .cache/
-.ipynb_checkpoints/
-__pycache__/
 temp/
 tmp/
 data/tmp/
 data/cache/
 
-# --- Configuration or secret files ---
+
+# =====================================================
+# Configuration / secret files (DO NOT COMMIT)
+# =====================================================
 *.env
 .env.*
 config.json
@@ -88,15 +119,10 @@ credentials.json
 token.json
 apikey.txt
 
-# --- Jupyter Notebook autosaves ---
-*.nbconvert.ipynb
 
-# --- OS specific ---
-.DS_Store
-desktop.ini
-Thumbs.db
-
-# --- Other large files or folders ---
+# =====================================================
+# Large project folders (raw data, models, artifacts)
+# =====================================================
 data/
 datasets/
 models/
