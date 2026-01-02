@@ -1,0 +1,11 @@
+Usefull Websites
+
+
+Google Teachable Machine -> Trains on image classes and converts in to a frozen file 
+
+
+
+Maths For Fun -> Learning Mathematics in simple using best visuals 
+
+
+
