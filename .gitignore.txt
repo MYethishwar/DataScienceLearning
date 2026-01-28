@@ -128,3 +128,8 @@ datasets/
 models/
 checkpoints/
 artifacts/
+touch .gitignore
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+# Ignore all files with a .checkpoint extension
+*.checkpoint
